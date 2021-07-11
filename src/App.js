@@ -1,30 +1,29 @@
-import "./styles.css";
 import React from "react";
-const Header = () => {
-  return (
-    <div className="head-container">
-      <img
-        src="https://user-images.githubusercontent.com/26179770/106359099-693e3380-6336-11eb-8069-9e36f25de5ca.png"
-        className="head-image"
-      ></img>
-      <h1 className="head-text">Name It!</h1>;
-    </div>
-  );
-};
+import Header from "./Header.js";
+import Searchbox from "./Searchbox.js";
+import ResultContainer from "./ResultContainer.js";
+import "./style.css";
+
+const name = require('@rstacruz/startup-name-generator');
+
 class App extends React.Component {
+  state = {
+    name: "Name It!",
+    headerExpanded: true,
+    suggestedNames: []
+  };
+  handleInputChange = (inputText) => {
+    this.setState({ headerExpanded: inputText.length > 0 ? false : true, suggestedNames: inputText.length > 0 ? name(inputText) : [] })
+  }
   render() {
     return (
       <div>
-        <Header />
+        <Header headerExpanded={this.state.headerExpanded} headText={this.state.name} />
+        <Searchbox handleInputChange={this.handleInputChange} />
+        <ResultContainer suggestedNames={this.state.suggestedNames} />
       </div>
     );
   }
 }
-function App1() {
-  return (
-    <div>
-      <Header />
-    </div>
-  );
-}
+
 export default App;
